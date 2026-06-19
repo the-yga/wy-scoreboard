@@ -1,7 +1,7 @@
 # 📊 Wyvern Studio - Open Source Scoreboard (ESX)
 
 <p align="center">
-  <img src="https://my.uupload.ir/f/v9VogL2R" alt="Wyvern Studio Banner" width="100%">
+  <img src="scoreboardBanner.png" alt="Wyvern Studio Banner" width="50%">
 </p>
 
 Welcome to the **Wyvern Studio Scoreboard**, a modern, clean, and high-performance scoreboard script for FiveM servers running the **ESX Framework**. Designed with a focus on "New Digital Experiences," this scoreboard provides real-time player statistics and job counts with a sleek UI.
@@ -25,7 +25,7 @@ Welcome to the **Wyvern Studio Scoreboard**, a modern, clean, and high-performan
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="https://my.uupload.ir/f/dx952gzW" alt="Scoreboard Preview" width="80%">
+  <img src="scoreboard.png" alt="Scoreboard Preview" width="40%">
 </p>
 
 ---
