@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RP wyvern Scoreboard</title>
+    <style>
+        :root {
+            --primary: #5c95ff;
+            --primary-rgb: 92, 127, 255;
+            --bg: #0e131600;
+            --panel: #141b22;
+            --panel-2: #1a2730;
+            --text: #e6e9ef;
+            --muted: #9aa3b2;
+            --silver: #cfd6e4;
+            --glow: 0 0 25px rgba(var(--primary-rgb), .35);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(1200px 600px at 20% -10%, rgba(var(--primary-rgb), .12), transparent 40%),
+                radial-gradient(900px 500px at 120% 10%, rgba(var(--primary-rgb), .10), transparent 45%),
+                var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .scoreboard {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.85);
+            width: 520px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, 0)), var(--panel);
+            border-radius: var(--radius);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .65);
+            border: 1px solid rgba(255, 255, 255, .06);
+            opacity: 0;
+            pointer-events: none;
+            transition: all .45s cubic-bezier(.2, .9, .2, 1);
+            overflow: hidden;
+        }
+
+        .scoreboard.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .header {
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), .18), transparent 60%);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .logo img {
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            object-fit: cover;
+            /* border: 1px dashed rgba(255,255,255,.15); */
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .title p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .players {
+            padding: 18px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .players .count {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--silver);
+        }
+
+        .players .label {
+            grid-column: 1 / -1;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent);
+            margin: 6px 18px;
+        }
+
+        .jobs {
+            padding: 12px 14px 18px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .job {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, 0)), var(--panel-2);
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(255, 255, 255, .06);
+        }
+
+        .job .icon img {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px dashed rgba(255, 255, 255, .2);
+        }
+
+        .job .info {
+            flex: 1;
+        }
+
+        .job .name {
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: .3px;
+        }
+
+        .job .num {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--silver);
+        }
+
+        .footer {
+            padding: 14px 18px;
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .footer .team {
+            font-size: 10px;
+            color: rgba(255, 255, 255, .35);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scoreboard" id="scoreboard">
+        <div class="header">
+            <div class="logo"><img src="images/logo.png" alt="Server Logo"></div>
+            <div class="title">
+                <h1>Wyvern Studio</h1>
+                <p>Make New Digital Experiance </p>
+            </div>
+        </div>
+
+        <div class="players">
+            <div class="count" id="playerCount">0</div>
+            <div class="label">ONLINE PLAYERS</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="jobs">
+            <div class="job">
+                <div class="icon"><img src="images/sasp.png" alt="SASP"></div>
+                <div class="info">
+                    <div class="name">SASP</div>
+                    <div class="num" id="sasp">0</div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="icon"><img src="images/lspd.png" alt="LSPD"></div>
+                <div class="info">
+                    <div class="name">LSPD</div>
+                    <div class="num" id="lspd">0</div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="icon"><img src="images/bcsd.png" alt="BCSD"></div>
+                <div class="info">
+                    <div class="name">BCSO</div>
+                    <div class="num" id="bcsd">0</div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="icon"><img src="images/hospital.png" alt="Hospital"></div>
+                <div class="info">
+                    <div class="name">HOSPITAL</div>
+                    <div class="num" id="hospital">0</div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="icon"><img src="images/taxi.png" alt="Taxi"></div>
+                <div class="info">
+                    <div class="name">TAXI</div>
+                    <div class="num" id="taxi">0</div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="icon"><img src="images/bennys.png" alt="Bennys"></div>
+                <div class="info">
+                    <div class="name">Tuner</div>
+                    <div class="num" id="bennys">0</div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="icon"><img src="images/gov.png" alt="Gov"></div>
+                <div class="info">
+                    <div class="name">GOV</div>
+                    <div class="num" id="gov">0</div>
+                </div>
+            </div>
+            <div class="job">
+                <div class="icon"><img src="images/WezelNews.png" alt="WezelNews"></div>
+                <div class="info">
+                    <div class="name">WezelNews</div>
+                    <div class="num" id="WezelNews">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div id="discordLink">Team Speak : ts63.ir:14237</div>
+            <div class="team">Powered By YGA</div>
+        </div>
+    </div>
+
+    <script>
+        const scoreboard = document.getElementById('scoreboard');
+
+        function updateScoreboard(data) {
+            document.getElementById('playerCount').textContent = data.players;
+            document.getElementById('sasp').textContent = data.jobs.sasp;
+            document.getElementById('lspd').textContent = data.jobs.lspd;
+            document.getElementById('bcsd').textContent = data.jobs.bcsd;
+            document.getElementById('hospital').textContent = data.jobs.hospital;
+            document.getElementById('taxi').textContent = data.jobs.taxi;
+            document.getElementById('bennys').textContent = data.jobs.bennys;
+            document.getElementById('gov').textContent = data.jobs.gov;
+            document.getElementById('WezelNews').textContent = data.jobs.WezelNews;
+            document.getElementById('discordLink').textContent = data.discord;
+        }
+
+        window.addEventListener('message', function (event) {
+            if (event.data.action === 'open') {
+                scoreboard.classList.add('open');
+            }
+
+            if (event.data.action === 'close') {
+                scoreboard.classList.remove('open');
+            }
+
+            if (event.data.action === 'update') {
+                updateScoreboard(event.data.data);
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'F10' || e.key === 'Escape') {
+                fetch(`https://${GetParentResourceName()}/close`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+            }
+        });
+    </script>
+
+
+
+</body>
+
+</html>
